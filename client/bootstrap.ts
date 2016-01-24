@@ -1,2 +1,4 @@
 import {sayHello} from './scripts/sayHello';
-alert('hello');
+
+console.log('Hello');
+console.log('PuNKeR!');

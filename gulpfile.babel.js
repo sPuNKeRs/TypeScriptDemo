@@ -9,6 +9,8 @@ import uglify from 'gulp-uglify';
 import nodemon from 'gulp-nodemon';
 import livereload from 'gulp-livereload';
 import clean from 'gulp-clean';
+//import gsync from 'gulp-sync'(gulp);
+var gsync = require('gulp-sync')(gulp);
 
 
 /**
@@ -31,7 +33,7 @@ import clean from 'gulp-clean';
  */
 
 gulp.task('default', ['build']);
-gulp.task('develop', ['build', 'serve', 'livereload']);
+gulp.task('develop', gsync.sync(['browserify', 'less', 'assets', 'serve', 'livereload']));
 gulp.task('build', ['browserify', 'less', 'assets']);
 
 /**
@@ -101,20 +103,23 @@ gulp.task('less', () => {
 gulp.task('watch', () => {
 	gulp.watch('./client/**/*.ts', ['browserify']);
 	gulp.watch('./client/**/*.less', ['less']);
-	gulp.watch('build/**/*', ['livereload']);
+	gulp.watch('./client/**/*.html', ['assets']);
+
+	//gulp.watch('build/**/*.html', ['livereload']);
 });
 
 // Собрать приложение и запустить
-gulp.task('serve', ['build'], () => {
+gulp.task('serve', () => {
 	return nodemon({
-		script: paths.main, options: '-i client/*'
+		script: paths.main, watch: 'server/**/*.js'
 	});
 });
 
 // Перезагрузка браузера при изменеии приложения
-gulp.task('livereload', ['serve'], ()=>{
+gulp.task('livereload',  ()=>{
 	gulp.watch('./client/**/*.ts', ['browserify']);
-	gulp.watch('./client/**/*.less', ['less']);    	
+	gulp.watch('./client/**/*.less', ['less']);   
+	gulp.watch('./client/**/*.html', ['assets']); 	
   	
   	livereload.listen();
   	var all_build_files = './build/**/*';
