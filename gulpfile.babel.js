@@ -33,8 +33,8 @@ var gsync = require('gulp-sync')(gulp);
  */
 
 gulp.task('default', ['build']);
-gulp.task('develop', gsync.sync(['browserify', 'less', 'assets', 'serve', 'livereload']));
-gulp.task('build', ['browserify', 'less', 'assets']);
+gulp.task('develop', gsync.sync(['clean', 'browserify', 'less', 'assets', 'serve', 'livereload']));
+gulp.task('build', gsync.sync(['browserify', 'less', 'assets']));
 
 /**
  * path globs / expressions for targets below
