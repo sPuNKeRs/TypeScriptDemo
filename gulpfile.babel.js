@@ -120,6 +120,8 @@ gulp.task('livereload',  ()=>{
 	gulp.watch('./client/**/*.ts', ['browserify']);
 	gulp.watch('./client/**/*.less', ['less']);   
 	gulp.watch('./client/**/*.html', ['assets']); 	
+	//livereload();
+
   	
   	livereload.listen();
   	var all_build_files = './build/**/*';
